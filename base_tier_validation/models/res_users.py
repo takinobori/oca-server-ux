@@ -17,7 +17,15 @@ class Users(models.Model):
         to_review_docs = {}
         for review in self.env.user.review_ids.filtered(
                 lambda r: r.status == 'pending'):
-            record = review.env[review.model].browse(review.res_id)
+            record = review.env[review.model].sudo(
+                self.env.user
+            ).search([('id', '=', review.res_id)])
+            if not record:
+                # Checking that the review is accessible with the permissions
+                continue
+            can_review = record.can_review
+            if not can_review:
+                continue
             if not user_reviews.get(review['model']):
                 user_reviews[review.model] = {
                     'name': record._description,

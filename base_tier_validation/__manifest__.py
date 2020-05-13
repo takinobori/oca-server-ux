@@ -3,9 +3,9 @@
 {
     "name": "Base Tier Validation",
     "summary": "Implement a validation process based on tiers.",
-    "version": "12.0.2.1.0",
+    "version": "12.0.3.4.0",
     "development_status": "Mature",
-    "maintainers": ['lreficent'],
+    "maintainers": ['LoisRForgeFlow'],
     "category": "Tools",
     "website": "https://github.com/OCA/server-ux",
     "author": "Eficent, Odoo Community Association (OCA)",
@@ -21,6 +21,7 @@
         "views/tier_definition_view.xml",
         "views/tier_review_view.xml",
         "views/assets_backend.xml",
+        "wizard/comment_wizard_view.xml",
     ],
     'qweb': [
         'static/src/xml/systray.xml',
