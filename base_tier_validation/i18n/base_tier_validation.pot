@@ -26,13 +26,19 @@ msgid "<span class=\"oe_edit_only\">Name</span>"
 msgstr ""
 
 #. module: base_tier_validation
+#: code:addons/base_tier_validation/models/tier_validation.py:205
+#, python-format
+msgid "A review has been requested by %s."
+msgstr ""
+
+#. module: base_tier_validation
 #: code:addons/base_tier_validation/models/tier_validation.py:170
 #, python-format
 msgid "A review was accepted"
 msgstr ""
 
 #. module: base_tier_validation
-#: code:addons/base_tier_validation/models/tier_validation.py:192
+#: code:addons/base_tier_validation/models/tier_validation.py:194
 #, python-format
 msgid "A review was rejected by %s."
 msgstr ""
@@ -152,6 +158,11 @@ msgid "ID"
 msgstr ""
 
 #. module: base_tier_validation
+#: model:ir.model.fields,help:base_tier_validation.field_tier_definition_notify_on_create
+msgid "If set, all possible reviewers will be notified by email when this definition is triggered."
+msgstr ""
+
+#. module: base_tier_validation
 #: model:ir.model.fields,field_description:base_tier_validation.field_tier_definition___last_update
 #: model:ir.model.fields,field_description:base_tier_validation.field_tier_review___last_update
 #: model:ir.model.fields,field_description:base_tier_validation.field_tier_validation___last_update
@@ -192,6 +203,11 @@ msgstr ""
 #: code:addons/base_tier_validation/static/src/xml/systray.xml:7
 #, python-format
 msgid "No reviews to do."
+msgstr ""
+
+#. module: base_tier_validation
+#: model:ir.model.fields,field_description:base_tier_validation.field_tier_definition_notify_on_create
+msgid "Notify Reviewers on Creation"
 msgstr ""
 
 #. module: base_tier_validation
@@ -261,7 +277,7 @@ msgstr ""
 #. module: base_tier_validation
 #. openerp-web
 #: code:addons/base_tier_validation/static/src/xml/systray.xml:32
-#: code:addons/base_tier_validation/static/src/xml/tier_review_template.xml:10
+#: code:addons/base_tier_validation/static/src/xml/tier_review_template.xml:9
 #: model:ir.model.fields,field_description:base_tier_validation.field_res_users_review_ids
 #, python-format
 msgid "Reviews"
