@@ -134,7 +134,7 @@ class TierValidation(models.AbstractModel):
     @api.model
     def _get_under_validation_exceptions(self):
         """Extend for more field exceptions."""
-        return ['message_follower_ids']
+        return ['message_follower_ids', 'message_main_attachment_id']
 
     @api.multi
     def _check_allow_write_under_validation(self, vals):
@@ -149,8 +149,7 @@ class TierValidation(models.AbstractModel):
     @api.multi
     def write(self, vals):
         for rec in self:
-            if (getattr(rec, self._state_field) in self._state_from and
-                    vals.get(self._state_field) in self._state_to):
+            if rec._check_state_conditions(vals):
                 if rec.need_validation:
                     # try to validate operation
                     reviews = rec.request_validation()
@@ -172,6 +171,11 @@ class TierValidation(models.AbstractModel):
             self.mapped('review_ids').unlink()
         return super(TierValidation, self).write(vals)
 
+    def _check_state_conditions(self, vals):
+        self.ensure_one()
+        return (getattr(self, self._state_field) in self._state_from and
+                vals.get(self._state_field) in self._state_to)
+
     def _validate_tier(self, tiers=False):
         self.ensure_one()
         tier_reviews = tiers or self.review_ids
@@ -187,11 +191,17 @@ class TierValidation(models.AbstractModel):
             rec = self.env[review.model].browse(review.res_id)
             rec._notify_accepted_reviews()
 
+    def _get_accepted_notification_subtype(self):
+        return 'base_tier_validation.mt_tier_validation_accepted'
+
+    def _get_rejected_notification_subtype(self):
+        return 'base_tier_validation.mt_tier_validation_rejected'
+
     def _notify_accepted_reviews(self):
         if hasattr(self, 'message_post'):
             # Notify state change
             getattr(self, 'message_post')(
-                subtype='mt_note',
+                subtype=self._get_accepted_notification_subtype(),
                 body=self._notify_accepted_reviews_body()
             )
 
@@ -258,7 +268,7 @@ class TierValidation(models.AbstractModel):
         if hasattr(self, 'message_post'):
             # Notify state change
             getattr(self, 'message_post')(
-                subtype='mt_note',
+                subtype=self._get_rejected_notification_subtype(),
                 body=self._notify_rejected_review_body()
             )
 
